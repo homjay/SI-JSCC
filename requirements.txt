@@ -1,0 +1,6 @@
+jupyter
+matplotlib
+numpy
+scikit-image
+onnxruntime
+onnx
