@@ -15,4 +15,4 @@ The pre-trained model for SI-JSCC can be downloaded from the following links:
 
 Please note that currently, we only provide pre-trained models and validation code.
 
-The source code will be released once the paper is accepted.
+The source code will be released after the paper is accepted.
