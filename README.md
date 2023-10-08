@@ -14,3 +14,5 @@ The pre-trained model for SI-JSCC can be downloaded from the following links:
 - [cuc driver](https://kod.cuc.edu.cn/#s/9iPxnSSQ)
 
 Please note that currently, we only provide pre-trained models and validation code.
+
+The training code will be released once the paper is accepted.
