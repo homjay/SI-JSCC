@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environments
+.venv/
+venv/
+env/
+.env
+
+# Training outputs
+checkpoints/
+outputs/
+multirun/
+runs/
+lightning_logs/
+*.pth
+*.pt
+*.ckpt
+
+# Data and generated artifacts
+/datasets/
+/data/
+*.csv
+
+# OS and editor files
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,13 @@
+# ADJSCC (Attention Deep Joint Source Channel Coding)
+# Reference: Xu et al., IEEE TCSVT 2022
+#
+# NOTE: This backbone has 2 downsampling layers (H/4, W/4).
+# comm_channels=16 gives total features = H*W (same as original paper).
+# For comparison with 4x downsampling models, use comm_channels=256.
+name: adjscc
+comm_channels: 16
+base_channels: 256
+attention_reduction: 16
+pass_snr: true
+power_norm: average_power
+complex_pairing: split

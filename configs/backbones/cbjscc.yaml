@@ -1,0 +1,4 @@
+name: cbjscc
+comm_channels: 16
+num_filters: 192
+snr_prior: false

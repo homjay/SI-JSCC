@@ -1,0 +1,5 @@
+name: deepjscc
+comm_channels: 16
+base_channels: 32
+kernel_size: 5
+output_activation: sigmoid

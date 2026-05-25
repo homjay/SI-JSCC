@@ -1,0 +1,114 @@
+# @package _global_
+# ============================================================================
+# CBJSCC Training Configuration
+# ============================================================================
+
+hydra:
+  run:
+    dir: ./checkpoints/${now:%Y-%m-%d}/${now:%Y-%m-%d-%H-%M-%S}_${model}
+  sweep:
+    dir: sweep_dir
+    subdir: ./checkpoints/${now:%Y-%m-%d}/${now:%Y-%m-%d-%H-%M-%S}_${model}/${hydra.job.num}
+  job:
+    env_set:
+      CUDA_VISIBLE_DEVICES: "0"
+
+defaults:
+  - _self_
+  - datasets@train_dataset: cifar10
+  - datasets@val_dataset: cifar10_test
+  - backbones@coder: cbjscc
+
+# ============================================================================
+# Training Settings
+# ============================================================================
+model: "jscc-sensitivity-informed"
+max_epochs: 500
+precision: bf16-mixed # Options: 16-true, 16-mixed, bf16-mixed, 32-true
+train_mode: end2end
+compile: false
+
+# ----------------------------------------------------------------------------
+# Optimizer & Learning Rate
+# ----------------------------------------------------------------------------
+learning_rate: 0.0008
+dropout_rate: 0.0
+gradient_clip_val: 5.0
+
+optimizer:
+  type: "adam" # Options: adam, adamw, lion
+  betas: [0.9, 0.999]
+  weight_decay: 0.0
+
+lr_scheduler:
+  type: "cosine"
+  warmup_epochs: 5
+  min_lr: 1e-6
+  factor: 0.1
+  patience: 10
+
+# ----------------------------------------------------------------------------
+# Data Loading
+# ----------------------------------------------------------------------------
+num_workers: 4
+batch_size: 128
+test_batch_size: 128
+patch_size: 32
+
+# ----------------------------------------------------------------------------
+# Checkpointing
+# ----------------------------------------------------------------------------
+save_only_latest: false
+checkpoint: null
+checkpoint_scheduler: false
+save_dir: ${hydra:run.dir}
+name: ${now:%Y-%m-%d-%H-%M-%S}_${model}
+
+# ============================================================================
+# Loss Function Settings
+# ============================================================================
+loss_type: "l2" # Options: l1, l2, l1_charbonnier, lpips
+
+loss_adaptive:
+  enabled: false
+  lpips_weight_max: 1.0
+  lpips_weight_min: 0.1
+  pixel_weight_max: 10.0
+  pixel_weight_min: 1.0
+  snr_weight: 0.5
+  rate_weight: 0.5
+
+enable_rate_loss: false
+rate_loss_lambda: 0.1
+pruning_ratio: null
+
+# ============================================================================
+# Channel Settings
+# ============================================================================
+channel_type: awgn # Options: awgn, dynamic_awgn, rayleigh, null
+min_snr: 1
+max_snr: 13
+
+# Per-channel SNR, only for channel_type: dynamic_awgn.
+per_channel_snr_strategy: "random" # Options: random, linear, exponential, decreasing
+
+# ============================================================================
+# Progressive Masking
+# ============================================================================
+progressive_masking: false
+progressive_masking_mode: "channel" # Options: channel, token
+progressive_masking_compensation: false
+min_stage: 1
+min_tokens: 64
+
+# ============================================================================
+# Advanced Settings
+# ============================================================================
+pruning_method: "hard"
+concrete_temperature: 1.0
+concrete_temperature_decay: 0.995
+concrete_min_temperature: 0.1
+
+fixed_stage: null
+return_features: false
+norm_group_channels: null
